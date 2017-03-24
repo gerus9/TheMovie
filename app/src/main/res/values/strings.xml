@@ -3,4 +3,11 @@
 
     <!-- Error -->
     <string name="error_network">Verifica tu conexión a Internet</string>
+
+    <!-- Loading info -->
+    <string name="retry_data_tt">No hay información para mostrar</string>
+    <string name="retry_data_description">Desliza la pantalla para abajo, para actualizar la información</string>
+    <string name="rate">Calificación de los usuarios</string>
+    <string name="date_release">Fecha de lanzamiento</string>
+
 </resources>

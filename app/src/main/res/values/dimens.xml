@@ -2,4 +2,21 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+
+
+    <!-- Details -->
+    <dimen name="card_news_height">280dp</dimen>
+    <dimen name="txt_card_news">13sp</dimen>
+    <dimen name="card_news_txt_padding">16dp</dimen>
+    <dimen name="icon_padding_upload_image">80dp</dimen>
+    <dimen name="activity_detail_appBarLayout">250dp</dimen>
+    <dimen name="size_text_radio">6sp</dimen>
+
+    <dimen name="view_rate_size">65dp</dimen>
+    <dimen name="view_floating_size">50dp</dimen>
+
+    <dimen name="customprogress">35dp</dimen>
+    <dimen name="item_detail_liner_padding">10dp</dimen>
+    <dimen name="item_detail_title">15dp</dimen>
+
 </resources>

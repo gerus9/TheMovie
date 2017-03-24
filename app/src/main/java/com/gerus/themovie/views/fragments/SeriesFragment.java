@@ -36,6 +36,11 @@ public class SeriesFragment extends GeneralFragment<TV> {
     }
 
     @Override
+    protected void searchDialog() {
+
+    }
+
+    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
     }

@@ -17,6 +17,7 @@ import com.gerus.themovie.custom.CircleDisplay;
 import com.gerus.themovie.interfaces.OnMiniatureRecyclerInterface;
 import com.gerus.themovie.interfaces.OnWebTasksInterface;
 import com.gerus.themovie.models.Movie;
+import com.gerus.themovie.views.dialogs.DialogFilter;
 
 import java.util.List;
 
@@ -42,6 +43,11 @@ public class MoviesFragment extends GeneralFragment<Movie> {
     @Override
     protected int getIdLayout() {
         return R.layout.fragment_movies;
+    }
+
+    @Override
+    protected void searchDialog() {
+        new DialogFilter(getActivity());
     }
 
     public MoviesFragment() {}

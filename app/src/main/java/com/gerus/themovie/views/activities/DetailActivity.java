@@ -67,7 +67,7 @@ public class DetailActivity extends AppCompatActivity {
 
     private void prcFillData() {
 
-        Glide.with(mContext).load(mNewsData.getBackdrop_path()).diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.drawable.vc_movies).error(R.mipmap.ic_launcher).into(mImage);
+        Glide.with(mContext).load(mNewsData.getBackdrop_path()).diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.drawable.dw_shape).error(R.mipmap.ic_launcher).into(mImage);
         mCircleDisplay.setTextSize(mContext.getResources().getDimension(R.dimen.size_text_radio));
         mCircleDisplay.setAnimDuration(1500);
         mCircleDisplay.setValueWidthPercent(35f);

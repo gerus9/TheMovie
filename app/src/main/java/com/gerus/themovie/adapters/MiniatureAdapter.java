@@ -68,7 +68,7 @@ public class MiniatureAdapter extends RecyclerView.Adapter{
             final Detail voDetail = mList.get(piPosition);
 
             voHolder.mTitle.setText(voDetail.getTitle() + " "+ voDetail.getVote_average());
-            Glide.with(mContext).load(voDetail.getPoster_path()).diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.drawable.vc_movies).error(R.mipmap.ic_launcher).into(voHolder.mImageView);
+            Glide.with(mContext).load(voDetail.getPoster_path()).diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.drawable.dw_shape).error(R.mipmap.ic_launcher).into(voHolder.mImageView);
             voHolder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

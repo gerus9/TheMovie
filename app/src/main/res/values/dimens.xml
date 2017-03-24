@@ -19,4 +19,11 @@
     <dimen name="item_detail_liner_padding">10dp</dimen>
     <dimen name="item_detail_title">15dp</dimen>
 
+
+    <dimen name="chip_margin">8dp</dimen>
+    <dimen name="chip_padding_bottom">6dp</dimen>
+    <dimen name="chip_padding_top">6dp</dimen>
+    <dimen name="chip_text_size">18sp</dimen>
+    <dimen name="chip_checkbox">50dp</dimen>
+
 </resources>

@@ -8,9 +8,34 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="AppTheme.Detail" />
+
     <style name="Toolbar" parent="ThemeOverlay.AppCompat">
         <item name="android:textColorPrimary">@color/white</item>
         <item name="android:textColorSecondary">@color/white</item>
     </style>
+
+    <style name="Footer_Title" parent="@android:style/TextAppearance.Medium">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="Footer_Subtitle" parent="@android:style/TextAppearance.Small">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="Floating" >
+        <item name="android:layout_width">@dimen/view_floating_size</item>
+        <item name="android:layout_height">@dimen/view_floating_size</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="rippleColor">@color/colorPrimaryDark</item>
+        <item name="backgroundTint">@color/colorPrimary</item>
+        <item name="android:tint">@color/white</item>
+        <item name="elevation">0dp</item>
+    </style>
+
 
 </resources>

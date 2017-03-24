@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="CustomProgressView">
+        <attr name="gp_type" format="enum">
+            <enum name="kite" value="0" />
+            <enum name="triangle" value="1" />
+        </attr>
+        <attr name="gp_number_of_angles" format="integer" />
+        <attr name="gp_color" format="color" />
+        <attr name="gp_duration" format="integer" />
+        <attr name="gp_figure_padding" format="dimension" />
+        <attr name="gp_style" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="CustomDouble">
+        <attr name="cd_color" format="reference" />
+        <attr name="cd_icon" format="reference" />
+        <attr name="cd_text1" format="string" />
+        <attr name="cd_text2" format="string"/>
+    </declare-styleable>
+
+</resources>

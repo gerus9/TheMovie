@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@color/blue_sky"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/colorPrimary"
     android:orientation="vertical">
 
     <RadioGroup
@@ -10,65 +10,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:background="@drawable/round_border"
         android:orientation="horizontal">
 
         <RadioButton
             android:id="@+id/rbBlue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:button="@android:color/transparent"
-            android:gravity="center"
-            android:maxLines="1"
-            android:paddingBottom="5dp"
-            android:paddingTop="5dp"
-            android:text="Blue"
-            android:textColor="@color/white"
-            android:textSize="22sp" />
+            android:text="Green"
+            style="@style/Chip" />
 
-        <View
-            android:id="@+id/vSep1"
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="@color/white"
-            android:visibility="visible" />
 
         <RadioButton
             android:id="@+id/rbGreen"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:button="@android:color/transparent"
-            android:gravity="center"
-            android:maxLines="1"
-            android:paddingBottom="5dp"
-            android:paddingTop="5dp"
             android:text="Green"
-            android:textColor="@color/white"
-            android:textSize="22sp" />
+            style="@style/Chip" />
 
-        <View
-            android:id="@+id/vSep2"
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="@color/white"
-            android:visibility="visible" />
 
         <RadioButton
             android:id="@+id/rbRed"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/radio_navigation"
-            android:button="@android:color/transparent"
-            android:gravity="center"
-            android:maxLines="1"
-            android:paddingBottom="5dp"
-            android:paddingTop="5dp"
-            android:text="Red"
-            android:textColor="@color/white"
-            android:textSize="22sp" />
+            android:text="Green"
+            style="@style/Chip" />
     </RadioGroup>
 
 </LinearLayout>

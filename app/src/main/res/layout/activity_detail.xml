@@ -14,8 +14,8 @@
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:contentScrim="?attr/colorPrimary"
             android:clipToPadding="false"
+            app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <ImageView
@@ -25,13 +25,7 @@
                 android:scaleType="centerCrop"
                 app:layout_collapseMode="parallax" />
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:layout_marginTop="20dp"
-                android:clipToPadding="false"
-                app:layout_collapseMode="pin" />
+            <include layout="@layout/toolbar" />
 
         </android.support.design.widget.CollapsingToolbarLayout>
 
@@ -50,50 +44,50 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:orientation="horizontal"
-                android:background="@color/colorAccent"
-                android:padding="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@color/colorAccent"
+                android:orientation="horizontal"
+                android:padding="10dp">
 
                 <com.gerus.themovie.custom.CircleDisplay
                     android:id="@+id/circleDisplay"
-                    android:layout_margin="@dimen/item_detail_liner_padding"
                     android:layout_width="@dimen/view_rate_size"
-                    android:layout_height="@dimen/view_rate_size" />
+                    android:layout_height="@dimen/view_rate_size"
+                    android:layout_margin="@dimen/item_detail_liner_padding" />
 
                 <TextView
-                    android:text="@string/rate"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/rate"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:padding="10dp">
 
-            <com.gerus.themovie.custom.CustomDouble
-                android:id="@+id/customDouble_date"
-                app:cd_icon="@drawable/vc_calendar"
-                app:cd_text1="@string/date_release"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                <com.gerus.themovie.custom.CustomDouble
+                    android:id="@+id/customDouble_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cd_icon="@drawable/vc_calendar"
+                    app:cd_text1="@string/date_release" />
 
-            <TextView
-                style="?android:textAppearanceMedium"
-                android:textStyle="bold"
-                android:textColor="@color/white"
-                android:padding="15dp"
-                android:text="@string/app_name"
-                android:id="@+id/txt_description"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                <TextView
+                    android:id="@+id/txt_description"
+                    style="?android:textAppearanceMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="15dp"
+                    android:text="@string/app_name"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 

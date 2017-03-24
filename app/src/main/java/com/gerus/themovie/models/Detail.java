@@ -4,6 +4,9 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.gerus.themovie.BuildConfig;
+import com.j256.ormlite.dao.ForeignCollection;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,21 +18,51 @@ import java.util.List;
 public class Detail implements Parcelable {
 
     public static final String ID = Detail.class.getSimpleName();
+    public static final String ID_DB = "ID_Detail";
 
-    private String poster_path;
-    private boolean adult;
-    private String overview;
-    private String release_date;
+    @DatabaseField(id = true, columnName = ID_DB)
     private int id;
+
+    @DatabaseField()
+    private String poster_path;
+
+    @DatabaseField()
+    private boolean adult;
+
+    @DatabaseField()
+    private String overview;
+
+    @DatabaseField()
+    private String release_date;
+
+    @DatabaseField()
     private String original_title;
+
+    @DatabaseField()
     private String original_language;
+
+    @DatabaseField()
     private String title;
+
+    @DatabaseField()
     private String backdrop_path;
+
+    @DatabaseField()
     private double popularity;
+
+    @DatabaseField()
     private int vote_count;
+
+    @DatabaseField()
     private boolean video;
+
+    @DatabaseField()
     private double vote_average;
+
     private List<Integer> genre_ids;
+
+    @ForeignCollectionField
+    private ForeignCollection<Genre> foreignCollection;
 
     public String getPoster_path() {
         return BuildConfig.IMAGE_URL+poster_path;

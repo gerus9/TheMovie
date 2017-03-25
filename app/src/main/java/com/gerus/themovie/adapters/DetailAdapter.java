@@ -54,7 +54,7 @@ public class DetailAdapter extends RecyclerView.Adapter {
             final ViewHolder voHolder = (ViewHolder) poHolder;
             final Detail voDetail = mList.get(piPosition);
 
-            voHolder.mTitle.setText(voDetail.getTitle());
+            voHolder.mTitle.setText(voDetail.getIdentifier());
             Glide.with(mContext).load(voDetail.getPoster_path()).diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.drawable.shape_placeholder).error(R.mipmap.ic_launcher).into(voHolder.mImageView);
             voHolder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override

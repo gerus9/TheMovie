@@ -68,5 +68,9 @@ public class CustomDouble extends LinearLayout {
         mText2.setText(Html.fromHtml(psMsg));
     }
 
+    public void setTitle(String psMsg){
+        mText1.setText(psMsg);
+    }
+
 
 }

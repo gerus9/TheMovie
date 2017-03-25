@@ -37,14 +37,6 @@ public abstract class GeneralFragment<T> extends Fragment {
     protected Unbinder mUnbinder;
     protected Context mContext;
     protected OnGeneralInterface mListener;
-    private static MoviesFragment instance = null;
-
-    public static GeneralFragment getInstance() {
-        if (instance == null) {
-            instance = new MoviesFragment();
-        }
-        return instance;
-    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

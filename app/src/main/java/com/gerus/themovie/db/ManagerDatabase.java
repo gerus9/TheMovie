@@ -6,6 +6,7 @@ import com.gerus.themovie.models.DB.GenreRelationship;
 import com.gerus.themovie.models.Detail;
 import com.gerus.themovie.models.Genre;
 import com.gerus.themovie.models.Movie;
+import com.gerus.themovie.models.TV;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.table.TableUtils;
@@ -29,8 +30,8 @@ public class ManagerDatabase {
     private DBHelper dbHelper;
 
 
-    public static final String TYPE_MUSIC = "music";
-    public static final String TYPE_TV = "tv";
+    public static final String TYPE_MOVIES = "movies";
+    public static final String TYPE_TV = "series";
 
     private static ManagerDatabase sInstance;
 
@@ -60,6 +61,14 @@ public class ManagerDatabase {
         }
     }
 
+    public void clearTableTV() {
+        try {
+            TableUtils.clearTable(dbHelper.getConnectionSource(), TV.class);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public boolean saveMovies(List<Movie> poListMovies) {
         try {
             for (int i = 0; i < poListMovies.size(); i++) {
@@ -75,7 +84,22 @@ public class ManagerDatabase {
         return true;
     }
 
-    public void saveGenesRelation(Movie poDetail, List<Integer> poGenreIds) throws SQLException {
+    public boolean saveTV(List<TV> poListMovies) {
+        try {
+            for (int i = 0; i < poListMovies.size(); i++) {
+                saveTV(poListMovies.get(i));
+                if (poListMovies.get(i).getGenre_ids() != null && poListMovies.get(i).getGenre_ids().size() > 0) {
+                    saveGenesRelation(poListMovies.get(i), poListMovies.get(i).getGenre_ids());
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    public void saveGenesRelation(Detail poDetail, List<Integer> poGenreIds) throws SQLException {
         for (int i = 0; i < poGenreIds.size(); i++) {
             dbHelper.getGenreRelationshipDAO().createOrUpdate(new GenreRelationship(poGenreIds.get(i),poDetail));
         }
@@ -85,9 +109,13 @@ public class ManagerDatabase {
         dbHelper.getMovieDAO().createOrUpdate(poMovie);
     }
 
+    private void saveTV(TV poMovie) throws SQLException {
+        dbHelper.getTvDAO().createOrUpdate(poMovie);
+    }
+
     public void saveGenesMovies(List<Genre> poGenre) {
         for (int i = 0; i < poGenre.size(); i++) {
-            poGenre.get(i).setType(TYPE_MUSIC);
+            poGenre.get(i).setType(TYPE_MOVIES);
             try {
                 dbHelper.getGenre().createOrUpdate(poGenre.get(i));
             } catch (SQLException e) {
@@ -96,10 +124,14 @@ public class ManagerDatabase {
         }
     }
 
-    public void saveGensTV(List<Genre> poGenre) throws SQLException {
+    public void saveGensTV(List<Genre> poGenre) {
         for (int i = 0; i < poGenre.size(); i++) {
             poGenre.get(i).setType(TYPE_TV);
-            dbHelper.getGenre().createOrUpdate(poGenre.get(i));
+            try {
+                dbHelper.getGenre().createOrUpdate(poGenre.get(i));
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -124,7 +156,17 @@ public class ManagerDatabase {
     public List<Genre> getGendersMovies() {
         List<Genre> mGenres = new ArrayList<>();
         try {
-            mGenres = dbHelper.getGenre().queryBuilder().orderBy(Genre.COLUMN_NAME, true).where().eq(Genre.COLUMN_TYPE, TYPE_MUSIC).query();
+            mGenres = dbHelper.getGenre().queryBuilder().orderBy(Genre.COLUMN_NAME, true).where().eq(Genre.COLUMN_TYPE, TYPE_MOVIES).query();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return mGenres;
+    }
+
+    public List<Genre> getGendersTV() {
+        List<Genre> mGenres = new ArrayList<>();
+        try {
+            mGenres = dbHelper.getGenre().queryBuilder().orderBy(Genre.COLUMN_NAME, true).where().eq(Genre.COLUMN_TYPE, TYPE_TV).query();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -137,7 +179,7 @@ public class ManagerDatabase {
             QueryBuilder<GenreRelationship, String> orderQb = dbHelper.getGenreRelationshipDAO().queryBuilder();
             orderQb.where().in(GenreRelationship.COLUMN_GENRE, piIDs);
             QueryBuilder<Movie, Integer> voMovies = dbHelper.getMovieDAO().queryBuilder();
-            voMovies.orderBy(Detail.COLUMN_TITLE, true);
+            voMovies.orderBy(Movie.COLUMN_TITLE, true);
             voMovies.distinct();
             mMovies = voMovies.join(orderQb).query();
         } catch (SQLException e) {
@@ -146,12 +188,37 @@ public class ManagerDatabase {
         return mMovies;
     }
 
+    public List<TV> getTVByGenders(List<Integer> piIDs) {
+        List<TV> mMovies = new ArrayList<>();
+        try {
+            QueryBuilder<GenreRelationship, String> orderQb = dbHelper.getGenreRelationshipDAO().queryBuilder();
+            orderQb.where().in(GenreRelationship.COLUMN_GENRE, piIDs);
+            QueryBuilder<TV, Integer> voTV = dbHelper.getTvDAO().queryBuilder();
+            voTV.orderBy(TV.COLUMN_NAME, true);
+            voTV.distinct();
+            mMovies = voTV.join(orderQb).query();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return mMovies;
+    }
+
     public List<Movie> getListMovies() {
         try {
-            return dbHelper.getMovieDAO().queryBuilder().orderBy(Movie.COLUMN_POPULARITY, false).query();
+            return dbHelper.getMovieDAO().queryBuilder().orderBy(Movie.COLUMN_POPULARITY, false).distinct().query();
         } catch (SQLException e) {
             e.printStackTrace();
             return new ArrayList<>();
         }
     }
+
+    public List<TV> getListTV() {
+        try {
+            return dbHelper.getTvDAO().queryBuilder().orderBy(Movie.COLUMN_POPULARITY, false).distinct().query();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+    }
+
 }

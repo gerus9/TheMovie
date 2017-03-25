@@ -22,6 +22,8 @@ import com.gerus.themovie.custom.CustomDouble;
 import com.gerus.themovie.db.ManagerDatabase;
 import com.gerus.themovie.models.Detail;
 import com.gerus.themovie.models.Genre;
+import com.gerus.themovie.models.Movie;
+import com.gerus.themovie.models.TV;
 
 import org.apmem.tools.layouts.FlowLayout;
 
@@ -60,7 +62,7 @@ public class DetailActivity extends AppCompatActivity {
         if(getIntent().getExtras()!=null){
             mDetail = getIntent().getExtras().getParcelable(Detail.ID);
             if(mDetail !=null){
-                voActionBar.setTitle(mDetail.getTitle());
+                voActionBar.setTitle(mDetail.getIdentifier());
                 prcFillData();
             } else {
                 finish();
@@ -93,7 +95,14 @@ public class DetailActivity extends AppCompatActivity {
             mFlowCategories.addView(rdbtn);
         }
 
-        mDate.setSubtitle(mDetail.getRelease_date());
+        if(mDetail instanceof Movie){
+            mDate.setTitle(mContext.getString(R.string.date_release));
+            mDate.setSubtitle(((Movie) mDetail).getRelease_date());
+        } else if (mDetail instanceof TV){
+            mDate.setTitle(mContext.getString(R.string.date_first_air));
+            mDate.setSubtitle(((TV) mDetail).getFirst_air_date());
+        }
+
     }
 
     @Override

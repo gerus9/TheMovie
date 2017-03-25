@@ -10,7 +10,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.TranslateAnimation;
@@ -54,11 +53,9 @@ public class MainActivity extends AppCompatActivity implements OnGeneralInterfac
                 switch (item.getItemId()) {
                     case R.id.menu_payments:
                         voFragment = MoviesFragment.getInstance();
-                        //mBottonNavigation.setBackgroundColor(ContextCompat.getColor(mContext,R.color.red));
                         break;
                     case R.id.menu_numbers:
                         voFragment = SeriesFragment.getInstance();
-                        //mBottonNavigation.setBackgroundColor(ContextCompat.getColor(mContext,R.color.yellow));
                         break;
                 }
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragments, voFragment).commit();

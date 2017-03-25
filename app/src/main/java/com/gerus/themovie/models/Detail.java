@@ -19,13 +19,11 @@ import java.util.List;
 public class Detail implements Parcelable {
 
     public static final String ID = Detail.class.getSimpleName();
-
     public static final String COLUMN_ID = "idDetail";
-    public static final String COLUMN_TITLE = "title";
     public static final String COLUMN_POPULARITY = "popularity";
 
-
-    public Detail() {}
+    public Detail() {
+    }
 
     @DatabaseField(canBeNull = false, id = true, defaultValue = "0", columnName = COLUMN_ID)
     private int id;
@@ -40,16 +38,7 @@ public class Detail implements Parcelable {
     private String overview;
 
     @DatabaseField()
-    private String release_date;
-
-    @DatabaseField()
-    private String original_title;
-
-    @DatabaseField()
     private String original_language;
-
-    @DatabaseField(columnName = COLUMN_TITLE)
-    private String title;
 
     @DatabaseField()
     private String backdrop_path;
@@ -67,10 +56,9 @@ public class Detail implements Parcelable {
     private double vote_average;
 
     private List<Integer> genre_ids;
-    
 
     public String getPoster_path() {
-        return BuildConfig.IMAGE_URL+poster_path;
+        return BuildConfig.IMAGE_URL + poster_path;
     }
 
     public void setPoster_path(String poster_path) {
@@ -93,14 +81,6 @@ public class Detail implements Parcelable {
         this.overview = overview;
     }
 
-    public String getRelease_date() {
-        return release_date;
-    }
-
-    public void setRelease_date(String release_date) {
-        this.release_date = release_date;
-    }
-
     public int getId() {
         return id;
     }
@@ -109,32 +89,14 @@ public class Detail implements Parcelable {
         this.id = id;
     }
 
-    public String getOriginal_title() {
-        return original_title;
-    }
-
-    public void setOriginal_title(String original_title) {
-        this.original_title = original_title;
-    }
-
     public String getOriginal_language() {
         return original_language;
     }
 
-    public void setOriginal_language(String original_language) {
-        this.original_language = original_language;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
+    public void setOriginal_language(String original_language) {this.original_language = original_language;}
 
     public String getBackdrop_path() {
-        return BuildConfig.IMAGE_URL+backdrop_path;
+        return BuildConfig.IMAGE_URL + backdrop_path;
     }
 
     public void setBackdrop_path(String backdrop_path) {
@@ -181,6 +143,7 @@ public class Detail implements Parcelable {
         this.genre_ids = genre_ids;
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -188,14 +151,11 @@ public class Detail implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.id);
         dest.writeString(this.poster_path);
         dest.writeByte(this.adult ? (byte) 1 : (byte) 0);
         dest.writeString(this.overview);
-        dest.writeString(this.release_date);
-        dest.writeInt(this.id);
-        dest.writeString(this.original_title);
         dest.writeString(this.original_language);
-        dest.writeString(this.title);
         dest.writeString(this.backdrop_path);
         dest.writeDouble(this.popularity);
         dest.writeInt(this.vote_count);
@@ -205,14 +165,11 @@ public class Detail implements Parcelable {
     }
 
     protected Detail(Parcel in) {
+        this.id = in.readInt();
         this.poster_path = in.readString();
         this.adult = in.readByte() != 0;
         this.overview = in.readString();
-        this.release_date = in.readString();
-        this.id = in.readInt();
-        this.original_title = in.readString();
         this.original_language = in.readString();
-        this.title = in.readString();
         this.backdrop_path = in.readString();
         this.popularity = in.readDouble();
         this.vote_count = in.readInt();
@@ -222,7 +179,7 @@ public class Detail implements Parcelable {
         in.readList(this.genre_ids, Integer.class.getClassLoader());
     }
 
-    public static final Parcelable.Creator<Detail> CREATOR = new Parcelable.Creator<Detail>() {
+    public static final Creator<Detail> CREATOR = new Creator<Detail>() {
         @Override
         public Detail createFromParcel(Parcel source) {
             return new Detail(source);
@@ -233,4 +190,8 @@ public class Detail implements Parcelable {
             return new Detail[size];
         }
     };
+
+    public String getIdentifier() {
+        return null;
+    }
 }

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.gerus.themovie.models.DB.GenreRelationship;
-import com.gerus.themovie.models.Detail;
 import com.gerus.themovie.models.Genre;
 import com.gerus.themovie.models.Movie;
 import com.gerus.themovie.models.TV;
@@ -68,7 +67,7 @@ public class DBHelper extends OrmLiteSqliteOpenHelper {
         return movieDAO;
     }
 
-    protected Dao<TV, Integer> getTVDAO() throws SQLException {
+    protected Dao<TV, Integer> getTvDAO() throws SQLException {
         if (tvDAO == null)
             tvDAO = getDao(TV.class);
         return tvDAO;

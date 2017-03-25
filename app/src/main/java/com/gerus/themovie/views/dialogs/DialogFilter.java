@@ -23,6 +23,7 @@ import com.gerus.themovie.interfaces.OnMiniatureRecyclerInterface;
 import com.gerus.themovie.models.Detail;
 import com.gerus.themovie.models.Genre;
 import com.gerus.themovie.models.Movie;
+import com.gerus.themovie.views.fragments.MoviesFragment;
 
 import org.apmem.tools.layouts.FlowLayout;
 
@@ -36,6 +37,7 @@ import butterknife.ButterKnife;
 public class DialogFilter extends Dialog implements Toolbar.OnMenuItemClickListener {
     private Activity mActivity;
     private ManagerDatabase mDB;
+    private String mType;
     private CheckBox[] mCheckBoxes;
     private OnDetailDialogInterface mInterface;
     private List<Detail> mDetails = new ArrayList<Detail>();
@@ -44,7 +46,7 @@ public class DialogFilter extends Dialog implements Toolbar.OnMenuItemClickListe
     @BindView(R.id.toolbar) Toolbar mToolbar;
 
 
-    public DialogFilter(Activity poActivity, OnDetailDialogInterface poDialogInterface) {
+    public DialogFilter(Activity poActivity, String psTAG, OnDetailDialogInterface poDialogInterface) {
         super(poActivity, R.style.AppTheme);
         setContentView(R.layout.dialog_filter);
         ButterKnife.bind(this);
@@ -54,6 +56,7 @@ public class DialogFilter extends Dialog implements Toolbar.OnMenuItemClickListe
         mToolbar.inflateMenu(R.menu.menu_confirm);
         mToolbar.setOnMenuItemClickListener(this);
         mToolbar.setTitle(R.string.search);
+        mType = psTAG;
         findByIds();
         show();
     }
@@ -67,7 +70,7 @@ public class DialogFilter extends Dialog implements Toolbar.OnMenuItemClickListe
             }
         });
 
-        List<Genre> mGenreList = mDB.getGendersMovies();
+        List<Genre> mGenreList = (mType.equals(MoviesFragment.TAG) ? mDB.getGendersMovies(): mDB.getGendersTV());
         mCheckBoxes = new CheckBox[mGenreList.size()];
         for (int i = 0; i < mGenreList.size(); i++) {
             final CheckBox rdbtn = new CheckBox(new ContextThemeWrapper(mActivity, R.style.Chip), null, R.style.Chip);
@@ -83,7 +86,7 @@ public class DialogFilter extends Dialog implements Toolbar.OnMenuItemClickListe
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_search:
+            case R.id.action_confirm:
                 Log.d("Dialog", " ");
                 mDetails.clear();
                 List<Integer> voInteger = new ArrayList<>();
@@ -93,7 +96,7 @@ public class DialogFilter extends Dialog implements Toolbar.OnMenuItemClickListe
                         voInteger.add((Integer) mCheckBoxes[i].getTag());
                     }
                 }
-                mDetails.addAll(mDB.getMoviesByGenders(voInteger));
+                mDetails.addAll((mType.equals(MoviesFragment.TAG)?mDB.getMoviesByGenders(voInteger):mDB.getTVByGenders(voInteger)));
 
                 if (mDetails.size() > 0) {
                     new DialogResult(mActivity, mDetails,mInterface);

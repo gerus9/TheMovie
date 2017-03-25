@@ -33,12 +33,14 @@ import butterknife.BindView;
 
 public class MoviesFragment extends GeneralFragment<Movie> implements OnMiniatureRecyclerInterface<Movie>, OnWebTasksInterface.ListResult<Movie> {
 
+    public static final String TAG = MoviesFragment.class.getSimpleName();
+
     @BindView(R.id.recyclerview)
     RecyclerView mRecyclerView;
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout mSwipeRefreshLayout;
 
-
+    private static MoviesFragment mInstance = null;
     private static final int TIMER_LOADER = 1000;
     private static final int TIMER_ANIMATION = 1500;
 
@@ -53,7 +55,7 @@ public class MoviesFragment extends GeneralFragment<Movie> implements OnMiniatur
 
     @Override
     protected void searchDialog() {
-        new DialogFilter(getActivity(), new OnDetailDialogInterface() {
+        new DialogFilter(getActivity(), TAG, new OnDetailDialogInterface() {
             @Override
             public void onItemSelected(Detail poDetail) {
                 mListener.onItemSelected(poDetail);
@@ -61,9 +63,14 @@ public class MoviesFragment extends GeneralFragment<Movie> implements OnMiniatur
         });
     }
 
-    public MoviesFragment() {
-    }
+    public MoviesFragment() {}
 
+    public static MoviesFragment getInstance() {
+        if (mInstance == null) {
+            mInstance = new MoviesFragment();
+        }
+        return mInstance;
+    }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -74,7 +81,7 @@ public class MoviesFragment extends GeneralFragment<Movie> implements OnMiniatur
         if (UNetwork.isOnline(mContext)) {
             prcWebGetGeners();
         } else {
-            prcUpdateRecyclerView(mDB.getListMovies());
+            prcUpdateRecyclerView(mDB.getListMovies(), false);
         }
     }
 
@@ -142,8 +149,8 @@ public class MoviesFragment extends GeneralFragment<Movie> implements OnMiniatur
      *
      * @param poMovieList
      */
-    private void prcUpdateRecyclerView(List<Movie> poMovieList) {
-        mDB.saveMovies(poMovieList);
+    private void prcUpdateRecyclerView(List<Movie> poMovieList, boolean pbSaved) {
+        if(pbSaved) mDB.saveMovies(poMovieList);
         for (int i = 0; i < poMovieList.size(); i++) {
             mListMiniatures.add(poMovieList.get(i));
             mAdapter.notifyItemChanged(i);
@@ -248,7 +255,7 @@ public class MoviesFragment extends GeneralFragment<Movie> implements OnMiniatur
                 mDB.clearTableMovies();
             }
             PAGE = PAGE + 1;
-            prcUpdateRecyclerView(poMovieList);
+            prcUpdateRecyclerView(poMovieList, true);
         }
     }
 

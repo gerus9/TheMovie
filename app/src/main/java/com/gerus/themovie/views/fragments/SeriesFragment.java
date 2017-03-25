@@ -80,10 +80,12 @@ public class SeriesFragment extends GeneralFragment<TV> implements OnMiniatureRe
         prcInitRecyclerView();
         prcSetSwipeRefresh();
 
-        if (UNetwork.isOnline(mContext)) {
-            prcWebGetGeners();
-        } else {
-            if (mListMiniatures.isEmpty()) prcUpdateRecyclerView(mDB.getListTV(), false);
+        if(mListMiniatures.isEmpty()){
+            if (UNetwork.isOnline(mContext)) {
+                prcWebGetGeners();
+            } else {
+                prcUpdateRecyclerView(mDB.getListTV(), false);
+            }
         }
     }
 
@@ -133,7 +135,7 @@ public class SeriesFragment extends GeneralFragment<TV> implements OnMiniatureRe
      * Method to manipulate swipeRefresh
      */
     private void prcSetSwipeRefresh() {
-        mSwipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(mContext, R.color.red));
+        mSwipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(mContext, R.color.colorPrimary));
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

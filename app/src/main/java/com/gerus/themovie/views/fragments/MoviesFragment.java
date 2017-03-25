@@ -78,10 +78,12 @@ public class MoviesFragment extends GeneralFragment<Movie> implements OnMiniatur
         prcInitRecyclerView();
         prcSetSwipeRefresh();
 
-        if (UNetwork.isOnline(mContext)) {
-            prcWebGetGeners();
-        } else {
-            if(mListMiniatures.isEmpty()) prcUpdateRecyclerView(mDB.getListMovies(), false);
+        if(mListMiniatures.isEmpty()){
+            if (UNetwork.isOnline(mContext)) {
+                prcWebGetGeners();
+            } else {
+                prcUpdateRecyclerView(mDB.getListMovies(), false);
+            }
         }
     }
 
@@ -131,7 +133,7 @@ public class MoviesFragment extends GeneralFragment<Movie> implements OnMiniatur
      * Method to manipulate swipeRefresh
      */
     private void prcSetSwipeRefresh() {
-        mSwipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(mContext, R.color.red));
+        mSwipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(mContext, R.color.colorPrimary));
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

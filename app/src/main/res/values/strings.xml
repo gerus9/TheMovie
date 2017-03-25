@@ -10,5 +10,10 @@
     <string name="rate">Calificación de los usuarios</string>
     <string name="date_release">Fecha de lanzamiento</string>
     <string name="filter">Filtro</string>
+    <string name="search">Buscador por categorías</string>
+    <string name="category_popular">Popular</string>
+    <string name="category_rated">Top Rated</string>
+    <string name="category_upcoming">Upcoming</string>
+    <string name="error_limit">Ya no hay más información para mostrar</string>
 
 </resources>

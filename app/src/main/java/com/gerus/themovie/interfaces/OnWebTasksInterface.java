@@ -13,7 +13,7 @@ import java.util.List;
 public interface OnWebTasksInterface {
 
     public interface ListResult<T> {
-        void onResult(List<T> poMovieList);
+        void onResult(List<T> poMovieList, int piPages);
         void onError(String psErrorMsg);
     }
 

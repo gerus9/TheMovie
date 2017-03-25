@@ -115,6 +115,9 @@ public class ManagerConnection {
     }
 
     private void prcSetValuesInMsgModel() throws IOException {
+        mNetworkModel.setStatusCode(0);
+        mNetworkModel.setMessage(mContext.getString(R.string.error_network));
+
         int viCode = mConn.getResponseCode();
 
         String vsMsg = UIO.fncsConvertInputToString((viCode >= 200 && viCode < 400) ? mConn.getInputStream() : mConn.getErrorStream());

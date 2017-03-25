@@ -55,6 +55,7 @@ public class WebTasks {
 
     public void prcGetMovies(int piPage, final OnWebTasksInterface.ListResult<Movie> poInterface) {
         String vsURL = String.format(URL_MOVIES,BuildConfig.KEY, piPage);
+
         mAsynkTask = new AsyncTask<String, Void, NetworkModel>() {
 
             @Override
@@ -68,8 +69,9 @@ public class WebTasks {
                     try {
                         TypeToken<ListRequest<Movie>> typeToken = new TypeToken<ListRequest<Movie>>() {};
                         ListRequest<Movie> mListRequest = new GsonBuilder().create().fromJson(poNetWorkModel.getMessage(), typeToken.getType());
-                        poInterface.onResult(mListRequest.getResults());
+                        poInterface.onResult(mListRequest.getResults(), mListRequest.getTotal_pages());
                     } catch (Exception e) {
+                        e.printStackTrace();
                         poInterface.onError(poNetWorkModel.getMessage());
                     }
                 } else {
@@ -95,7 +97,6 @@ public class WebTasks {
                         Type listType = new TypeToken<ArrayList<Genre>>(){}.getType();
                         JSONObject poJsonObject = new JSONObject(poNetWorkModel.getMessage());
                         String psText = poJsonObject.getString("genres");
-                        Log.d("TAG_WEBTASK",""+psText);
                         ArrayList<Genre> poGenres = new Gson().fromJson(psText, listType);
                         poInterface.onResult(poGenres);
                     } catch (Exception e) {
@@ -108,7 +109,6 @@ public class WebTasks {
             }
         }.execute(vsURL);
     }
-
 
 
 }

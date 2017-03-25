@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.gerus.themovie.R;
+import com.gerus.themovie.db.ManagerDatabase;
 import com.gerus.themovie.interfaces.OnGeneralInterface;
 import com.gerus.themovie.models.Detail;
 import com.gerus.themovie.network.WebTasks;
@@ -32,6 +33,7 @@ public abstract class GeneralFragment<T> extends Fragment {
 
     protected ArrayList<T> mListMiniatures = new ArrayList<T>();
     protected WebTasks mWebTasks;
+    protected ManagerDatabase mDB;
     protected Unbinder mUnbinder;
     protected Context mContext;
     protected OnGeneralInterface mListener;
@@ -73,6 +75,7 @@ public abstract class GeneralFragment<T> extends Fragment {
         mUnbinder = ButterKnife.bind(this, voView);
         mContext = getActivity();
         mWebTasks = new WebTasks(mContext);
+        mDB = ManagerDatabase.getInstance(mContext);
         return voView;
     }
 

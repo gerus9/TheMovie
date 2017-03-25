@@ -1,35 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="15dp"
+    android:background="@android:color/transparent"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:orientation="horizontal"
+    android:padding="25dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="25dp">
-
-        <com.gerus.themovie.custom.CustomProgressView
-            android:id="@+id/progressView"
-            android:layout_width="@dimen/customprogress"
-            android:layout_height="@dimen/customprogress"
-            android:layout_weight=".2"
-            app:gp_color="@color/colorPrimary" />
-
-        <TextView
-            android:id="@android:id/text1"
-            style="@style/TextAppearance.AppCompat.Medium"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:gravity="left"
-            android:paddingLeft="25dp"
-            android:text="@string/app_name"
-            android:textColor="@color/black" />
-
-    </LinearLayout>
+    <com.gerus.themovie.custom.CustomProgressView
+        android:id="@+id/progressView"
+        android:layout_width="@dimen/customprogress"
+        android:layout_height="@dimen/customprogress"
+        android:background="@android:color/transparent"
+        android:layout_weight=".2"
+        app:gp_duration="1500"
+        app:gp_color="@color/colorPrimary"
+        app:gp_number_of_angles="4" />
 
 
-</android.support.v7.widget.CardView>
+</LinearLayout>

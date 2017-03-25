@@ -5,7 +5,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -14,8 +16,11 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.gerus.themovie.R;
 import com.gerus.themovie.interfaces.OnMiniatureRecyclerInterface;
 import com.gerus.themovie.models.Detail;
+import com.gerus.themovie.models.Movie;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -29,6 +34,11 @@ public class MiniatureAdapter extends RecyclerView.Adapter{
     private static final int VIEW_TYPE_OBJECT_VIEW = 2;
     private static final int VIEW_TYPE_FOOTER_VIEW = 3;
 
+    private static int TYPE;
+    public static final int TYPE_POPULAR = 1;
+    public static final int TYPE_RATED = 2;
+    public static final int TYPE_UPCOMING = 3;
+
     private Context mContext;
     private List<? extends Detail> mList = new ArrayList<Detail>();
     private OnMiniatureRecyclerInterface mInterface;
@@ -37,6 +47,7 @@ public class MiniatureAdapter extends RecyclerView.Adapter{
         mContext = poContext;
         mList = poList;
         mInterface = poInterface;
+        TYPE = TYPE_POPULAR;
     }
 
 
@@ -55,7 +66,7 @@ public class MiniatureAdapter extends RecyclerView.Adapter{
                 return new ViewFooter(mView);
             case VIEW_TYPE_HEADER_VIEW:
                 mView = LayoutInflater.from(parent.getContext()).inflate(R.layout.miniature_header, parent, false);
-                return new ViewFooter(mView);
+                return new ViewHeader(mView);
         }
         return new ViewHolder(mView);
     }
@@ -65,9 +76,9 @@ public class MiniatureAdapter extends RecyclerView.Adapter{
         if(poHolder instanceof ViewHolder) {
 
             final ViewHolder voHolder = (ViewHolder) poHolder;
-            final Detail voDetail = mList.get(piPosition);
+            final Detail voDetail = mList.get(piPosition-1);
 
-            voHolder.mTitle.setText(voDetail.getTitle() + " "+ voDetail.getVote_average());
+            voHolder.mTitle.setText(voDetail.getTitle());
             Glide.with(mContext).load(voDetail.getPoster_path()).diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.drawable.dw_shape).error(R.mipmap.ic_launcher).into(voHolder.mImageView);
             voHolder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -75,12 +86,42 @@ public class MiniatureAdapter extends RecyclerView.Adapter{
                     if(mInterface!=null) mInterface.onItemSelected(voDetail);
                 }
             });
-        } else if (poHolder instanceof ViewEmpty){
-            final ViewEmpty voHolder = (ViewEmpty) poHolder;
-            voHolder.mView.setOnClickListener(new View.OnClickListener() {
+        } else if (poHolder instanceof ViewHeader){
+            final ViewHeader voHolder = (ViewHeader) poHolder;
+
+            switch (TYPE){
+                case TYPE_POPULAR: voHolder.mBtnPopular.setChecked(true); break;
+                case TYPE_RATED: voHolder.mBtnTop.setChecked(true); break;
+                case TYPE_UPCOMING: voHolder.mBtnUpcoming.setChecked(true); break;
+            }
+
+            voHolder.mBtnPopular.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(mInterface!=null) mInterface.onClickEmptyLayout();
+                    if(mInterface!=null && TYPE!=TYPE_POPULAR){
+                        TYPE = TYPE_POPULAR;
+                        mInterface.onRefreshValues(TYPE);
+                    }
+                }
+            });
+
+            voHolder.mBtnTop.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(mInterface!=null && TYPE!=TYPE_RATED){
+                        TYPE = TYPE_RATED;
+                        mInterface.onRefreshValues(TYPE);
+                    }
+                }
+            });
+
+            voHolder.mBtnUpcoming.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(mInterface!=null && TYPE!=TYPE_UPCOMING){
+                        TYPE = TYPE_UPCOMING;
+                        mInterface.onRefreshValues(TYPE);
+                    }
                 }
             });
         }
@@ -118,6 +159,10 @@ public class MiniatureAdapter extends RecyclerView.Adapter{
         }
     }
 
+    public void resetType() {
+        TYPE = TYPE_POPULAR;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public final View mView;
@@ -129,7 +174,6 @@ public class MiniatureAdapter extends RecyclerView.Adapter{
             mView = poView;
             mTitle = (TextView) poView.findViewById(R.id.txt_card_news);
             mImageView = (ImageView) poView.findViewById(R.id.image_card_news);
-
         }
     }
 
@@ -154,10 +198,14 @@ public class MiniatureAdapter extends RecyclerView.Adapter{
 
     public class ViewHeader extends RecyclerView.ViewHolder {
         public final View mView;
+        public final RadioButton mBtnPopular, mBtnTop, mBtnUpcoming;
 
         public ViewHeader(View view) {
             super(view);
             mView = view;
+            mBtnPopular = (RadioButton) view.findViewById(R.id.btnPopular);
+            mBtnTop = (RadioButton) view.findViewById(R.id.btnTop);
+            mBtnUpcoming = (RadioButton) view.findViewById(R.id.btnUpcoming);
         }
     }
 }

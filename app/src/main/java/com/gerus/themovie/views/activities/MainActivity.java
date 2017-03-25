@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements OnGeneralInterfac
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
 
-                Log.d(" TAG verticalOffset ", "" + verticalOffset);
+                //Log.d(" TAG verticalOffset ", "" + verticalOffset);
                 if (verticalOffset == 0) {
                     if (mBottonNavigation.getVisibility() != View.VISIBLE) {
                         TranslateAnimation animate = new TranslateAnimation(0, 0, 0, 0);

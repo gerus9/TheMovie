@@ -13,20 +13,20 @@
         android:orientation="horizontal">
 
         <RadioButton
-            android:id="@+id/rbBlue"
-            android:text="Green"
+            android:id="@+id/btnPopular"
+            android:text="@string/category_popular"
             style="@style/Chip" />
 
 
         <RadioButton
-            android:id="@+id/rbGreen"
-            android:text="Green"
+            android:id="@+id/btnTop"
+            android:text="@string/category_rated"
             style="@style/Chip" />
 
 
         <RadioButton
-            android:id="@+id/rbRed"
-            android:text="Green"
+            android:id="@+id/btnUpcoming"
+            android:text="@string/category_upcoming"
             style="@style/Chip" />
     </RadioGroup>
 

@@ -175,7 +175,7 @@ public class SeriesFragment extends GeneralFragment<TV> implements OnMiniatureRe
      * Method to call Geners and save DB
      */
     private void prcWebGetGeners() {
-
+        mSwipeRefreshLayout.setRefreshing(true);
         mWebTasks.prcGetGenreTV(new OnWebTasksInterface.GenreResult() {
             @Override
             public void onResult(List<Genre> poGenreList) {

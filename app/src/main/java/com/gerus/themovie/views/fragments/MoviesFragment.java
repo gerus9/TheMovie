@@ -174,7 +174,7 @@ public class MoviesFragment extends GeneralFragment<Movie> implements OnMiniatur
      * Method to call Geners and save DB
      */
     private void prcWebGetGeners() {
-
+        mSwipeRefreshLayout.setRefreshing(true);
         mWebTasks.prcGetGenreMovies(new OnWebTasksInterface.GenreResult() {
             @Override
             public void onResult(List<Genre> poGenreList) {

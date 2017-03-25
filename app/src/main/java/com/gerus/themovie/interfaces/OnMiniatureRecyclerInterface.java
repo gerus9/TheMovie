@@ -9,5 +9,5 @@ import com.gerus.themovie.models.Movie;
 public interface OnMiniatureRecyclerInterface<T> {
 
     void onItemSelected(T poMovie);
-    void onClickEmptyLayout();
+    void onRefreshValues(int piType);
 }

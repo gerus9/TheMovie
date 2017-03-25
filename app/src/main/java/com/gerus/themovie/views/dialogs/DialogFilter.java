@@ -3,38 +3,63 @@ package com.gerus.themovie.views.dialogs;
 import android.app.Activity;
 import android.app.Dialog;
 import android.support.v7.view.ContextThemeWrapper;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.gerus.themovie.R;
+import com.gerus.themovie.adapters.DetailAdapter;
+import com.gerus.themovie.adapters.MiniatureAdapter;
+import com.gerus.themovie.db.ManagerDatabase;
+import com.gerus.themovie.interfaces.OnDetailDialogInterface;
+import com.gerus.themovie.interfaces.OnDetailRecyclerInterface;
+import com.gerus.themovie.interfaces.OnMiniatureRecyclerInterface;
+import com.gerus.themovie.models.Detail;
+import com.gerus.themovie.models.Genre;
+import com.gerus.themovie.models.Movie;
 
 import org.apmem.tools.layouts.FlowLayout;
 
+import java.util.ArrayList;
+import java.util.List;
 
-public class DialogFilter extends Dialog implements View.OnClickListener {
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+
+public class DialogFilter extends Dialog implements Toolbar.OnMenuItemClickListener {
     private Activity mActivity;
-    private FlowLayout mLinerLayout;
+    private ManagerDatabase mDB;
+    private CheckBox[] mCheckBoxes;
+    private OnDetailDialogInterface mInterface;
+    private List<Detail> mDetails = new ArrayList<Detail>();
+
+    @BindView(R.id.flowLayout) FlowLayout mLinerLayout;
+    @BindView(R.id.toolbar) Toolbar mToolbar;
 
 
-    public DialogFilter(Activity poActivity) {
+    public DialogFilter(Activity poActivity, OnDetailDialogInterface poDialogInterface) {
         super(poActivity, R.style.AppTheme);
-        mActivity = poActivity;
-        //mInterface = poInterface;
         setContentView(R.layout.dialog_filter);
-
+        ButterKnife.bind(this);
+        mActivity = poActivity;
+        mDB = ManagerDatabase.getInstance(mActivity);
+        mInterface = poDialogInterface;
+        mToolbar.inflateMenu(R.menu.menu_filter);
+        mToolbar.setOnMenuItemClickListener(this);
+        mToolbar.setTitle(R.string.search);
         findByIds();
         show();
     }
 
     public void findByIds() {
 
-        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        mLinerLayout = (FlowLayout) findViewById(R.id.radioGroup);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -42,39 +67,41 @@ public class DialogFilter extends Dialog implements View.OnClickListener {
             }
         });
 
-        int numero = (int) (Math.random() * 10) + 1;
-        for (int row = 0; row < numero; row++) {
-
-            for (int i = 1; i <= numero; i++) {
-                final CheckBox rdbtn = new CheckBox(new ContextThemeWrapper(mActivity, R.style.Chip), null, R.style.Chip);
-                rdbtn.setLayoutParams(new ViewGroup.LayoutParams((int) getContext().getResources().getDimension(R.dimen.chip_checkbox), ViewGroup.LayoutParams.WRAP_CONTENT));
-                rdbtn.setText("i"+i);
-                rdbtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(mActivity, "setOnClickListener "+rdbtn.isChecked(),Toast.LENGTH_SHORT).show();
-                    }
-                });
-                rdbtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        Toast.makeText(mActivity, "setOnCheckedChangeListener "+rdbtn.isChecked(),Toast.LENGTH_SHORT).show();
-                    }
-                });
-                mLinerLayout.addView(rdbtn);
-            }
-            //((ViewGroup) findViewById(R.id.radiogroup)).addView(mRadio);
+        List<Genre> mGenreList = mDB.getGendersMovies();
+        mCheckBoxes = new CheckBox[mGenreList.size()];
+        for (int i = 0; i < mGenreList.size(); i++) {
+            final CheckBox rdbtn = new CheckBox(new ContextThemeWrapper(mActivity, R.style.Chip), null, R.style.Chip);
+            rdbtn.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            rdbtn.setText(mGenreList.get(i).getName());
+            rdbtn.setClickable(true);
+            rdbtn.setTag(mGenreList.get(i).getId());
+            mCheckBoxes[i] = rdbtn;
+            mLinerLayout.addView(rdbtn);
         }
-
-
     }
-
 
     @Override
-    public void onClick(View v) {
+    public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_search:
+                Log.d("Dialog", " ");
+                mDetails.clear();
+                List<Integer> voInteger = new ArrayList<>();
+                for (int i = 0; i < mCheckBoxes.length; i++) {
+                    if (mCheckBoxes[i].isChecked()) {
+                        Log.d("Dialog Checked", " " + mCheckBoxes[i].getTag());
+                        voInteger.add((Integer) mCheckBoxes[i].getTag());
+                    }
+                }
+                mDetails.addAll(mDB.getMoviesByGenders(voInteger));
 
+                if (mDetails.size() > 0) {
+                    new DialogResult(mActivity, mDetails,mInterface);
+                } else {
+                    Toast.makeText(mActivity, "No se encontraron resultados", Toast.LENGTH_SHORT).show();
+                }
+                return true;
+        }
+        return false;
     }
-
-
-
 }

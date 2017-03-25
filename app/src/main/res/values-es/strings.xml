@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">The Movie</string>
 
     <!-- Error -->
     <string name="error_network">Verifica tu conexión a Internet</string>

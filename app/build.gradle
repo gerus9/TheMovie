@@ -1,6 +1,8 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
 
+String app_name = 'The Movie'
+
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
@@ -16,17 +18,42 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            resValue "string", "app_name", app_name
             buildConfigField "boolean", "LOG", "false"
             buildConfigField "String", "URL", "\"https://api.themoviedb.org/3\""
             buildConfigField "String", "IMAGE_URL", "\"https://image.tmdb.org/t/p/w300\""
             buildConfigField "String", "KEY", "\"b2c51e384d6c640309991ad2d8b24edb\""
         }
 
-        debug{
+        stg {
+            applicationIdSuffix ".stg"
+            resValue "string", "app_name", app_name + " (stg)"
             buildConfigField "boolean", "LOG", "true"
             buildConfigField "String", "URL", "\"https://api.themoviedb.org/3\""
             buildConfigField "String", "IMAGE_URL", "\"https://image.tmdb.org/t/p/w300\""
             buildConfigField "String", "KEY", "\"b2c51e384d6c640309991ad2d8b24edb\""
+        }
+
+        debug{
+            applicationIdSuffix ".dev"
+            resValue "string", "app_name", app_name + " (debug)"
+            buildConfigField "boolean", "LOG", "true"
+            buildConfigField "String", "URL", "\"https://api.themoviedb.org/3\""
+            buildConfigField "String", "IMAGE_URL", "\"https://image.tmdb.org/t/p/w300\""
+            buildConfigField "String", "KEY", "\"b2c51e384d6c640309991ad2d8b24edb\""
+        }
+    }
+
+
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def project = "TheMovie"
+            def SEP = "_"
+            def buildType = variant.variantData.variantConfiguration.buildType.name
+            def version = defaultConfig.versionName
+            def newApkName = project+".apk";
+            newApkName = project + SEP + buildType + SEP + "v" + SEP + version + ".apk"
+            output.outputFile = new File(output.outputFile.parent, newApkName)
         }
     }
 }

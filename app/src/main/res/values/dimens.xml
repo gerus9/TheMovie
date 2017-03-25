@@ -25,4 +25,11 @@
     <dimen name="chip_padding_top">6dp</dimen>
     <dimen name="chip_text_size">18sp</dimen>
 
+    <!-- Placeholder -->
+    <dimen name="placeholder_padding">10dp</dimen>
+    <dimen name="placeholder_radius">10dp</dimen>
+    <dimen name="chip_raduis">30dip</dimen>
+    <dimen name="chip_layer">4dp</dimen>
+    <dimen name="chip_shadow">4dp</dimen>
+
 </resources>

@@ -2,10 +2,10 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_pressed="true">
         <layer-list>
-            <item android:left="4dp" android:top="4dp">
+            <item android:left="@dimen/chip_layer" android:top="@dimen/chip_layer">
                 <shape>
-                    <solid android:color="#ff58bb52" />
-                    <corners android:radius="30dip"/>
+                    <solid android:color="@color/chip_color" />
+                    <corners android:radius="@dimen/chip_raduis" />
                 </shape>
             </item>
         </layer-list>
@@ -13,17 +13,17 @@
     <item>
         <layer-list>
             <!-- SHADOW LAYER -->
-            <item android:left="4dp" android:top="4dp">
+            <item android:left="@dimen/chip_shadow" android:top="@dimen/chip_shadow">
                 <shape>
-                    <solid android:color="#66000000" />
-                    <corners android:radius="30dip"/>
+                    <solid android:color="@color/chip_shadow" />
+                    <corners android:radius="30dip" />
                 </shape>
             </item>
             <!-- CONTENT LAYER -->
-            <item android:bottom="4dp" android:right="4dp">
+            <item android:bottom="@dimen/chip_layer" android:right="@dimen/chip_layer">
                 <shape>
-                    <solid android:color="@color/red" />
-                    <corners android:radius="30dip"/>
+                    <solid android:color="@color/chip_selected" />
+                    <corners android:radius="@dimen/chip_raduis" />
                 </shape>
             </item>
         </layer-list>

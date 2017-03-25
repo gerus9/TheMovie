@@ -51,7 +51,7 @@ public class DialogFilter extends Dialog implements Toolbar.OnMenuItemClickListe
         mActivity = poActivity;
         mDB = ManagerDatabase.getInstance(mActivity);
         mInterface = poDialogInterface;
-        mToolbar.inflateMenu(R.menu.menu_filter);
+        mToolbar.inflateMenu(R.menu.menu_confirm);
         mToolbar.setOnMenuItemClickListener(this);
         mToolbar.setTitle(R.string.search);
         findByIds();

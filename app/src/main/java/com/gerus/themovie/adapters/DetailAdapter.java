@@ -12,7 +12,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.gerus.themovie.R;
 import com.gerus.themovie.interfaces.OnDetailRecyclerInterface;
-import com.gerus.themovie.interfaces.OnMiniatureRecyclerInterface;
 import com.gerus.themovie.models.Detail;
 
 import java.util.ArrayList;
@@ -56,7 +55,7 @@ public class DetailAdapter extends RecyclerView.Adapter {
             final Detail voDetail = mList.get(piPosition);
 
             voHolder.mTitle.setText(voDetail.getTitle());
-            Glide.with(mContext).load(voDetail.getPoster_path()).diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.drawable.dw_shape).error(R.mipmap.ic_launcher).into(voHolder.mImageView);
+            Glide.with(mContext).load(voDetail.getPoster_path()).diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.drawable.shape_placeholder).error(R.mipmap.ic_launcher).into(voHolder.mImageView);
             voHolder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

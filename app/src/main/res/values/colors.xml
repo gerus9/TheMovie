@@ -4,9 +4,16 @@
     <color name="colorPrimaryDark">#2dab95</color>
     <color name="colorAccent">#081C24</color>
 
+    <color name="placeholder">#C8C8C8</color>
 
     <!-- Icons -->
     <color name="icon_color">#BDBDBD</color>
+
+    <!-- Chip -->
+    <color name="chip_color">@color/green</color>
+    <color name="chip_selected">@color/red</color>
+    <color name="chip_shadow">#66000000</color>
+
 
     <color name="background_detail">#383940</color>
 
@@ -14,7 +21,7 @@
     <color name="transparent">#00000000</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
-    <color name="green">#5CB85C</color>
+    <color name="green">#ff58bb52</color>
     <color name="teal">#009688</color>
     <color name="blue">#03A9F4</color>
     <color name="red">#FF594F</color>

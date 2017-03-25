@@ -16,6 +16,7 @@ import com.gerus.themovie.adapters.MiniatureAdapter;
 import com.gerus.themovie.custom.CircleDisplay;
 import com.gerus.themovie.interfaces.OnMiniatureRecyclerInterface;
 import com.gerus.themovie.interfaces.OnWebTasksInterface;
+import com.gerus.themovie.models.Genre;
 import com.gerus.themovie.models.Movie;
 import com.gerus.themovie.views.dialogs.DialogFilter;
 
@@ -38,8 +39,6 @@ public class MoviesFragment extends GeneralFragment<Movie> {
     protected MiniatureAdapter mAdapter;
     private static int PAGE = 1;
 
-
-
     @Override
     protected int getIdLayout() {
         return R.layout.fragment_movies;
@@ -57,7 +56,7 @@ public class MoviesFragment extends GeneralFragment<Movie> {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         prcSetReyclerView();
-        prcRefreshValues();
+        prcGenre();
 
         //Adapter ReyclerView
         mSwipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(mContext,R.color.red));
@@ -103,6 +102,22 @@ public class MoviesFragment extends GeneralFragment<Movie> {
 
     }
 
+    private void prcGenre() {
+
+        mWebTasks.prcGetGenreMovies(new OnWebTasksInterface.GenreResult() {
+            @Override
+            public void onResult(List<Genre> poGenreList) {
+                mDB.saveGenesMovies(poGenreList);
+                prcRefreshValues();
+            }
+
+            @Override
+            public void onError(String psErrorMsg) {
+                mListener.onShowError(psErrorMsg);
+            }
+        });
+    }
+
     /**
      * Get values form server
      */
@@ -111,6 +126,7 @@ public class MoviesFragment extends GeneralFragment<Movie> {
 
             @Override
             public void onResult(List<Movie> poMovieList) {
+                mDB.saveMovies(poMovieList);
                 loading = true;
                 mListener.onShowMsg("Cargando la lista");
                 mSwipeRefreshLayout.setRefreshing(false);

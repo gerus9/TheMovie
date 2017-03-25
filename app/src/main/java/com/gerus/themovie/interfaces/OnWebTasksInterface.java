@@ -1,5 +1,6 @@
 package com.gerus.themovie.interfaces;
 
+import com.gerus.themovie.models.Genre;
 import com.gerus.themovie.models.Movie;
 import com.gerus.themovie.models.TV;
 
@@ -17,7 +18,7 @@ public interface OnWebTasksInterface {
     }
 
     public interface GenreResult {
-        void onResult();
+        void onResult(List<Genre> poGenreList);
         void onError(String psErrorMsg);
     }
 

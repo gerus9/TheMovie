@@ -19,6 +19,7 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * Created by gerus-mac on 22/03/17.
@@ -28,17 +29,18 @@ public class WebTasks {
 
     private static final String URL = BuildConfig.URL;
 
-    private static final String URL_MOVIES = URL+"/movie/popular?api_key=%s&page=%d";
-    private static final String URL_MOVIES_GENRE = URL+"/genre/movie/list?api_key=%s";
+    private static final String URL_MOVIES = URL+"/movie/popular?api_key=%s&page=%d&language=%s";
+    private static final String URL_MOVIES_GENRE = URL+"/genre/movie/list?api_key=%s&language=%s";
 
-    private static final String URL_TV = URL+"/tv/popular?api_key=%s&page=%d";
-    private static final String URL_TV_GENRE = URL+"/genre/tv/list?api_key=%s";
+    private static final String URL_TV = URL+"/tv/popular?api_key=%s&page=%d&language=%s";
+    private static final String URL_TV_GENRE = URL+"/genre/tv/list?api_key=%s&language=%s";
 
     private static final int POSITION_URL = 0;
 
     protected AsyncTask mAsynkTask;
     protected Context mContext;
     protected ManagerConnection mConnect;
+    protected String mLanguage =  Locale.getDefault().getLanguage();
 
     protected static final int timeoutAsynctask = 15000;
 
@@ -64,7 +66,7 @@ public class WebTasks {
     /////////////////////////////////
 
     public void prcGetMovies(int piPage, final OnWebTasksInterface.ListResult<Movie> poInterface) {
-        String vsURL = String.format(URL_MOVIES,BuildConfig.KEY, piPage);
+        String vsURL = String.format(URL_MOVIES,BuildConfig.KEY, piPage, mLanguage);
 
         mAsynkTask = new AsyncTask<String, Void, NetworkModel>() {
 
@@ -92,7 +94,7 @@ public class WebTasks {
     }
 
     public void prcGetGenreMovies(final OnWebTasksInterface.GenreResult poInterface) {
-        String vsURL = String.format(URL_MOVIES_GENRE,BuildConfig.KEY);
+        String vsURL = String.format(URL_MOVIES_GENRE,BuildConfig.KEY,mLanguage);
         mAsynkTask = new AsyncTask<String, Void, NetworkModel>() {
 
             @Override
@@ -125,7 +127,7 @@ public class WebTasks {
     /////////////////////////////////
 
     public void prcGetTV(int piPage, final OnWebTasksInterface.ListResult<TV> poInterface) {
-        String vsURL = String.format(URL_TV,BuildConfig.KEY, piPage);
+        String vsURL = String.format(URL_TV,BuildConfig.KEY, piPage, mLanguage);
 
         mAsynkTask = new AsyncTask<String, Void, NetworkModel>() {
 
@@ -153,7 +155,7 @@ public class WebTasks {
     }
 
     public void prcGetGenreTV(final OnWebTasksInterface.GenreResult poInterface) {
-        String vsURL = String.format(URL_TV_GENRE,BuildConfig.KEY);
+        String vsURL = String.format(URL_TV_GENRE,BuildConfig.KEY, mLanguage);
         mAsynkTask = new AsyncTask<String, Void, NetworkModel>() {
 
             @Override

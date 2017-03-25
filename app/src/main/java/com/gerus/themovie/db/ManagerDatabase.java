@@ -84,12 +84,12 @@ public class ManagerDatabase {
         return true;
     }
 
-    public boolean saveTV(List<TV> poListMovies) {
+    public boolean saveTV(List<TV> poListTV) {
         try {
-            for (int i = 0; i < poListMovies.size(); i++) {
-                saveTV(poListMovies.get(i));
-                if (poListMovies.get(i).getGenre_ids() != null && poListMovies.get(i).getGenre_ids().size() > 0) {
-                    saveGenesRelation(poListMovies.get(i), poListMovies.get(i).getGenre_ids());
+            for (int i = 0; i < poListTV.size(); i++) {
+                saveTV(poListTV.get(i));
+                if (poListTV.get(i).getGenre_ids() != null && poListTV.get(i).getGenre_ids().size() > 0) {
+                    saveGenesRelation(poListTV.get(i), poListTV.get(i).getGenre_ids());
                 }
             }
         } catch (SQLException e) {

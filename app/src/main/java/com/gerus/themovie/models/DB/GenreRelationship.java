@@ -3,6 +3,7 @@ package com.gerus.themovie.models.DB;
 import com.gerus.themovie.models.Detail;
 import com.gerus.themovie.models.Genre;
 import com.gerus.themovie.models.Movie;
+import com.gerus.themovie.models.TV;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 
@@ -25,11 +26,22 @@ public class GenreRelationship<T extends Detail> {
     @DatabaseField(foreign = true, foreignColumnName = com.gerus.themovie.models.Detail.COLUMN_ID, columnName = COLUMN_DETAIL)
     private T detail;
 
+    @DatabaseField(foreign = true, foreignColumnName = com.gerus.themovie.models.Detail.COLUMN_ID)
+    private Movie movie;
+
+    @DatabaseField(foreign = true, foreignColumnName = com.gerus.themovie.models.Detail.COLUMN_ID)
+    private TV tv;
+
     public GenreRelationship() {}
 
     public GenreRelationship(int piID, T poDetail) {
         genre = new Genre(piID);
         detail = poDetail;
+        if(poDetail instanceof Movie){
+            movie = (Movie) poDetail;
+        } else if(poDetail instanceof TV){
+            tv = (TV) poDetail;
+        }
     }
 
     public String getId() {
@@ -54,5 +66,22 @@ public class GenreRelationship<T extends Detail> {
 
     public void setDetail(T detail) {
         this.detail = detail;
+    }
+
+
+    public Movie getMovie() {
+        return movie;
+    }
+
+    public void setMovie(Movie movie) {
+        this.movie = movie;
+    }
+
+    public TV getTv() {
+        return tv;
+    }
+
+    public void setTv(TV tv) {
+        this.tv = tv;
     }
 }

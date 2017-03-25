@@ -1,21 +1,31 @@
 package com.gerus.themovie.models;
 
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
 
 /**
  * Created by gerus-mac on 23/03/17.
  */
+@DatabaseTable
 public class Genre {
 
-    public static final String ID_DB = "id_Genre";
+    public static final String COLUMN_ID = "idGenre";
+    public static final String COLUMN_TYPE = "type";
+    public static final String COLUMN_NAME = "name";
 
-    @DatabaseField()
+    public Genre() {}
+
+    public Genre(int id) {
+        this.id = id;
+    }
+
+    @DatabaseField(columnName = COLUMN_TYPE)
     private String type;
 
-    @DatabaseField(id = true, columnName = ID_DB)
+    @DatabaseField(canBeNull = false, id = true, columnName = COLUMN_ID)
     private int id;
 
-    @DatabaseField()
+    @DatabaseField(columnName = COLUMN_NAME)
     private String name;
 
     public int getId() {

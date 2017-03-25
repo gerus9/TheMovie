@@ -1,5 +1,6 @@
 package com.gerus.themovie.models;
 
+import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.util.List;
@@ -12,5 +13,9 @@ import java.util.List;
 public class Movie extends Detail {
 
     public static final String ID = Movie.class.getSimpleName();
+
+    public Movie() {}
+
+
 
 }

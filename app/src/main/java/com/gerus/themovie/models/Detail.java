@@ -15,12 +15,19 @@ import java.util.List;
  * Created by gerus-mac on 23/03/17.
  */
 
+
 public class Detail implements Parcelable {
 
     public static final String ID = Detail.class.getSimpleName();
-    public static final String ID_DB = "ID_Detail";
 
-    @DatabaseField(id = true, columnName = ID_DB)
+    public static final String COLUMN_ID = "idDetail";
+    public static final String COLUMN_TITLE = "title";
+    public static final String COLUMN_POPULARITY = "popularity";
+
+
+    public Detail() {}
+
+    @DatabaseField(canBeNull = false, id = true, defaultValue = "0", columnName = COLUMN_ID)
     private int id;
 
     @DatabaseField()
@@ -41,13 +48,13 @@ public class Detail implements Parcelable {
     @DatabaseField()
     private String original_language;
 
-    @DatabaseField()
+    @DatabaseField(columnName = COLUMN_TITLE)
     private String title;
 
     @DatabaseField()
     private String backdrop_path;
 
-    @DatabaseField()
+    @DatabaseField(columnName = COLUMN_POPULARITY)
     private double popularity;
 
     @DatabaseField()
@@ -60,9 +67,7 @@ public class Detail implements Parcelable {
     private double vote_average;
 
     private List<Integer> genre_ids;
-
-    @ForeignCollectionField
-    private ForeignCollection<Genre> foreignCollection;
+    
 
     public String getPoster_path() {
         return BuildConfig.IMAGE_URL+poster_path;
@@ -197,9 +202,6 @@ public class Detail implements Parcelable {
         dest.writeByte(this.video ? (byte) 1 : (byte) 0);
         dest.writeDouble(this.vote_average);
         dest.writeList(this.genre_ids);
-    }
-
-    public Detail() {
     }
 
     protected Detail(Parcel in) {

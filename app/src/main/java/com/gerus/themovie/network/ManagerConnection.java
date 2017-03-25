@@ -1,32 +1,24 @@
 package com.gerus.themovie.network;
 
-
 import android.content.Context;
-import android.util.Log;
-import android.util.Pair;
+import android.os.AsyncTask;
 
 import com.gerus.themovie.BuildConfig;
-import com.gerus.themovie.R;
+import com.gerus.themovie.interfaces.OnWebTasksInterface;
+import com.gerus.themovie.models.Genre;
+import com.gerus.themovie.models.Movie;
+import com.gerus.themovie.models.TV;
+import com.gerus.themovie.models.network.ListRequest;
 import com.gerus.themovie.models.network.NetworkModel;
-import com.gerus.themovie.utils.UIO;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.Reader;
-import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
-import java.io.Writer;
+import org.json.JSONObject;
+
 import java.lang.reflect.Type;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.nio.charset.Charset;
-import java.util.List;
-
-import javax.net.ssl.HttpsURLConnection;
+import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * Created by gerus-mac on 22/03/17.
@@ -34,133 +26,160 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class ManagerConnection {
 
+    private static final String URL = BuildConfig.URL;
+
+    private static final String URL_MOVIES = URL+"/movie/popular?api_key=%s&page=%d&language=%s";
+    private static final String URL_MOVIES_GENRE = URL+"/genre/movie/list?api_key=%s&language=%s";
+
+    private static final String URL_TV = URL+"/tv/popular?api_key=%s&page=%d&language=%s";
+    private static final String URL_TV_GENRE = URL+"/genre/tv/list?api_key=%s&language=%s";
+
+    private static final int POSITION_URL = 0;
+
+    protected AsyncTask mAsynkTask;
     protected Context mContext;
-    protected URL mURL;
-    protected HttpURLConnection mConn = null;
-    private NetworkModel mNetworkModel;
+    protected Connection mConnect;
+    protected String mLanguage =  Locale.getDefault().getLanguage();
 
-    public ManagerConnection(Context poContext) {
-        mContext = poContext;
-        mNetworkModel = new NetworkModel(poContext.getString(R.string.error_network));
+    protected static final int timeoutAsynctask = 15000;
+
+    public ManagerConnection(Context context) {
+        mConnect = new Connection(context);
+        mContext = context;
     }
 
-    private void prcLog(String psLog) {
-        if (BuildConfig.LOG) Log.i(this.getClass().getSimpleName(), psLog);
-    }
-
-
-    public NetworkModel sendRequestGET(String psURL, int timeout) {
-        try {
-            prcLog(psURL);
-            prcLog("GET");
-
-            mURL = new URL(psURL);
-            setConnect(mURL, timeout);
-            mConn.setRequestMethod("GET");
-
-            prcSetValuesInMsgModel();
-
-            return mNetworkModel;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return mNetworkModel;
-    }
-
-    public NetworkModel sendRequestPOST(String psURL, String psJSON, int timeout) {
-
-        try {
-            prcLog(psURL);
-            prcLog("POST");
-            prcLog("JSON: " + psJSON);
-
-            mURL = new URL(psURL);
-            setConnect(mURL, timeout);
-            mConn.setDoOutput(true);
-            mConn.setRequestMethod("POST");
-
-            OutputStreamWriter out = new OutputStreamWriter(mConn.getOutputStream());
-            out.write(psJSON);
-            out.close();
-
-            prcSetValuesInMsgModel();
-
-            return mNetworkModel;
-        } catch (Exception e) {
-            mNetworkModel.setMessage(e.getMessage());
-        }
-        return mNetworkModel;
-    }
-
-    public NetworkModel sendRequestPUT(String psURL, int timeout, String psJSON) {
-        try {
-            prcLog(psURL);
-            prcLog("PUT");
-            mURL = new URL(psURL);
-            setConnect(mURL, timeout);
-
-            mConn.setDoOutput(true);
-            mConn.setRequestMethod("PUT");
-
-            OutputStreamWriter out = new OutputStreamWriter(mConn.getOutputStream());
-            out.close();
-
-            prcSetValuesInMsgModel();
-
-            return mNetworkModel;
-        } catch (IOException e) {
-            mNetworkModel.setMessage(e.getMessage());
-        }
-        return mNetworkModel;
-    }
-
-    private void prcSetValuesInMsgModel() throws IOException {
-        mNetworkModel.setStatusCode(0);
-        mNetworkModel.setMessage(mContext.getString(R.string.error_network));
-
-        int viCode = mConn.getResponseCode();
-
-        String vsMsg = UIO.fncsConvertInputToString((viCode >= 200 && viCode < 400) ? mConn.getInputStream() : mConn.getErrorStream());
-
-        prcLog("CODE:" + viCode);
-        prcLog("MSG:" + vsMsg);
-
-        mNetworkModel.setStatusCode(viCode);
-        mNetworkModel.setMessage(vsMsg);
-    }
-
-
-    //////////////////////////////////////////////////////////////////////
-    /////////////////////////////   UTILS        /////////////////////////
-    //////////////////////////////////////////////////////////////////////
-
-    public void setConnect(URL urlConnect, int timeOut) throws IOException {
-        if (urlConnect.getProtocol().startsWith("https")) {
-            mConn = (HttpsURLConnection) urlConnect.openConnection();
-        } else {
-            mConn = (HttpURLConnection) urlConnect.openConnection();
-        }
-        mConn.setConnectTimeout(timeOut);
-        mConn.setReadTimeout(timeOut);
-
-        mConn.setRequestProperty("Accept", "application/json");
-        mConn.setRequestProperty("Content-type", "application/json");
-    }
-
-    private String getQuery(List<Pair> params) throws UnsupportedEncodingException {
-        StringBuilder result = new StringBuilder();
-        boolean first = true;
-        for (Pair pair : params) {
-            if (first) {
-                first = false;
-            } else {
-                result.append("&");
+    public void cancel() {
+        if (mAsynkTask != null) {
+            try{
+                mConnect.mConn.disconnect();
+            } catch (Exception e){
+                e.printStackTrace();
+            } finally {
+                mAsynkTask.cancel(true);
             }
-            result.append(URLEncoder.encode(pair.first.toString(), "UTF-8"));
-            result.append("=");
-            result.append(URLEncoder.encode(pair.second.toString(), "UTF-8"));
         }
-        return result.toString();
+    }
+
+    /////////////////////////////////
+    ///////////  MOVIES  ///////////
+    /////////////////////////////////
+
+    public void prcGetMovies(int piPage, final OnWebTasksInterface.ListResult<Movie> poInterface) {
+        String vsURL = String.format(URL_MOVIES,BuildConfig.KEY, piPage, mLanguage);
+
+        mAsynkTask = new AsyncTask<String, Void, NetworkModel>() {
+
+            @Override
+            protected NetworkModel doInBackground(String ... params) {
+                return mConnect.sendRequestGET(params[POSITION_URL], timeoutAsynctask);
+            }
+
+            @Override
+            protected void onPostExecute(NetworkModel poNetWorkModel) {
+                if (poNetWorkModel.getStatusCode() == 200) {
+                    try {
+                        TypeToken<ListRequest<Movie>> typeToken = new TypeToken<ListRequest<Movie>>() {};
+                        ListRequest<Movie> mListRequest = new GsonBuilder().create().fromJson(poNetWorkModel.getMessage(), typeToken.getType());
+                        poInterface.onResult(mListRequest.getResults(), mListRequest.getTotal_pages());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        poInterface.onError(poNetWorkModel.getMessage());
+                    }
+                } else {
+                    poInterface.onError(poNetWorkModel.getMessage());
+                }
+            }
+        }.execute(vsURL);
+    }
+
+    public void prcGetGenreMovies(final OnWebTasksInterface.GenreResult poInterface) {
+        String vsURL = String.format(URL_MOVIES_GENRE,BuildConfig.KEY,mLanguage);
+        mAsynkTask = new AsyncTask<String, Void, NetworkModel>() {
+
+            @Override
+            protected NetworkModel doInBackground(String ... params) {
+                return mConnect.sendRequestGET(params[POSITION_URL], timeoutAsynctask);
+            }
+
+            @Override
+            protected void onPostExecute(NetworkModel poNetWorkModel) {
+                if (poNetWorkModel.getStatusCode() == 200) {
+                    try {
+                        Type listType = new TypeToken<ArrayList<Genre>>(){}.getType();
+                        JSONObject poJsonObject = new JSONObject(poNetWorkModel.getMessage());
+                        String psText = poJsonObject.getString("genres");
+                        ArrayList<Genre> poGenres = new Gson().fromJson(psText, listType);
+                        poInterface.onResult(poGenres);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        poInterface.onError(poNetWorkModel.getMessage());
+                    }
+                } else {
+                    poInterface.onError(poNetWorkModel.getMessage());
+                }
+            }
+        }.execute(vsURL);
+    }
+
+    /////////////////////////////////
+    ///////////  TV       ///////////
+    /////////////////////////////////
+
+    public void prcGetTV(int piPage, final OnWebTasksInterface.ListResult<TV> poInterface) {
+        String vsURL = String.format(URL_TV,BuildConfig.KEY, piPage, mLanguage);
+
+        mAsynkTask = new AsyncTask<String, Void, NetworkModel>() {
+
+            @Override
+            protected NetworkModel doInBackground(String ... params) {
+                return mConnect.sendRequestGET(params[POSITION_URL], timeoutAsynctask);
+            }
+
+            @Override
+            protected void onPostExecute(NetworkModel poNetWorkModel) {
+                if (poNetWorkModel.getStatusCode() == 200) {
+                    try {
+                        TypeToken<ListRequest<TV>> typeToken = new TypeToken<ListRequest<TV>>() {};
+                        ListRequest<TV> mListRequest = new GsonBuilder().create().fromJson(poNetWorkModel.getMessage(), typeToken.getType());
+                        poInterface.onResult(mListRequest.getResults(), mListRequest.getTotal_pages());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        poInterface.onError(poNetWorkModel.getMessage());
+                    }
+                } else {
+                    poInterface.onError(poNetWorkModel.getMessage());
+                }
+            }
+        }.execute(vsURL);
+    }
+
+    public void prcGetGenreTV(final OnWebTasksInterface.GenreResult poInterface) {
+        String vsURL = String.format(URL_TV_GENRE,BuildConfig.KEY, mLanguage);
+        mAsynkTask = new AsyncTask<String, Void, NetworkModel>() {
+
+            @Override
+            protected NetworkModel doInBackground(String ... params) {
+                return mConnect.sendRequestGET(params[POSITION_URL], timeoutAsynctask);
+            }
+
+            @Override
+            protected void onPostExecute(NetworkModel poNetWorkModel) {
+                if (poNetWorkModel.getStatusCode() == 200) {
+                    try {
+                        Type listType = new TypeToken<ArrayList<Genre>>(){}.getType();
+                        JSONObject poJsonObject = new JSONObject(poNetWorkModel.getMessage());
+                        String psText = poJsonObject.getString("genres");
+                        ArrayList<Genre> poGenres = new Gson().fromJson(psText, listType);
+                        poInterface.onResult(poGenres);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        poInterface.onError(poNetWorkModel.getMessage());
+                    }
+                } else {
+                    poInterface.onError(poNetWorkModel.getMessage());
+                }
+            }
+        }.execute(vsURL);
     }
 
 

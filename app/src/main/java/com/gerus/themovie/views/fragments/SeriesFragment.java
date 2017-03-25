@@ -179,7 +179,7 @@ public class SeriesFragment extends GeneralFragment<TV> implements OnMiniatureRe
      */
     private void prcWebGetGeners() {
         mSwipeRefreshLayout.setRefreshing(true);
-        mWebTasks.prcGetGenreTV(new OnWebTasksInterface.GenreResult() {
+        mConn.prcGetGenreTV(new OnWebTasksInterface.GenreResult() {
             @Override
             public void onResult(List<Genre> poGenreList) {
                 mDB.saveGensTV(poGenreList);
@@ -200,7 +200,7 @@ public class SeriesFragment extends GeneralFragment<TV> implements OnMiniatureRe
      */
     private void prcWebGetTV(final boolean pbReset) {
         PAGE = (pbReset) ? 1 : PAGE;
-        mWebTasks.prcGetTV(PAGE, this);
+        mConn.prcGetTV(PAGE, this);
     }
 
 

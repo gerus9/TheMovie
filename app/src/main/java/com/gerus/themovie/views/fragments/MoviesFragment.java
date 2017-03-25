@@ -177,7 +177,7 @@ public class MoviesFragment extends GeneralFragment<Movie> implements OnMiniatur
      */
     private void prcWebGetGeners() {
         mSwipeRefreshLayout.setRefreshing(true);
-        mWebTasks.prcGetGenreMovies(new OnWebTasksInterface.GenreResult() {
+        mConn.prcGetGenreMovies(new OnWebTasksInterface.GenreResult() {
             @Override
             public void onResult(List<Genre> poGenreList) {
                 mDB.saveGenesMovies(poGenreList);
@@ -198,7 +198,7 @@ public class MoviesFragment extends GeneralFragment<Movie> implements OnMiniatur
      */
     private void prcWebGetMovies(final boolean pbReset) {
         PAGE = (pbReset) ? 1 : PAGE;
-        mWebTasks.prcGetMovies(PAGE, this);
+        mConn.prcGetMovies(PAGE, this);
     }
 
 

@@ -14,8 +14,7 @@ import android.view.ViewGroup;
 import com.gerus.themovie.R;
 import com.gerus.themovie.db.ManagerDatabase;
 import com.gerus.themovie.interfaces.OnGeneralInterface;
-import com.gerus.themovie.models.Detail;
-import com.gerus.themovie.network.WebTasks;
+import com.gerus.themovie.network.ManagerConnection;
 
 import java.util.ArrayList;
 
@@ -32,7 +31,7 @@ public abstract class GeneralFragment<T> extends Fragment {
     protected abstract void searchDialog();
 
     protected ArrayList<T> mListMiniatures = new ArrayList<T>();
-    protected WebTasks mWebTasks;
+    protected ManagerConnection mConn;
     protected ManagerDatabase mDB;
     protected Unbinder mUnbinder;
     protected Context mContext;
@@ -66,7 +65,7 @@ public abstract class GeneralFragment<T> extends Fragment {
         View voView = inflater.inflate(getIdLayout(), container, false);
         mUnbinder = ButterKnife.bind(this, voView);
         mContext = getActivity();
-        mWebTasks = new WebTasks(mContext);
+        mConn = new ManagerConnection(mContext);
         mDB = ManagerDatabase.getInstance(mContext);
         return voView;
     }
@@ -86,7 +85,7 @@ public abstract class GeneralFragment<T> extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
-        if(mWebTasks!=null) mWebTasks.cancel();
+        if(mConn !=null) mConn.cancel();
     }
 
     @Override

@@ -2,16 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/menu_payments"
+        android:id="@+id/menu_movies"
         android:enabled="true"
         android:icon="@drawable/vc_movies"
-        android:title="@string/app_name"
+        android:title="@string/movies"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/menu_numbers"
+        android:id="@+id/menu_tv"
         android:enabled="true"
         android:icon="@drawable/vc_series"
-        android:title="@string/app_name"
+        android:title="@string/tv_series"
         app:showAsAction="ifRoom" />
 
 </menu>

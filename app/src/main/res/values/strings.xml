@@ -24,4 +24,7 @@
     <string name="error_empty_category">You must select a category</string>
     <string name="error_no_search">No results to show</string>
 
+    <string name="tv_series">Series</string>
+    <string name="movies">Movies</string>
+
 </resources>

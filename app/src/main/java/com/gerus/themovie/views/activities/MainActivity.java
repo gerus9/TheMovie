@@ -51,10 +51,10 @@ public class MainActivity extends AppCompatActivity implements OnGeneralInterfac
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 GeneralFragment voFragment = null;
                 switch (item.getItemId()) {
-                    case R.id.menu_payments:
+                    case R.id.menu_movies:
                         voFragment = MoviesFragment.getInstance();
                         break;
-                    case R.id.menu_numbers:
+                    case R.id.menu_tv:
                         voFragment = SeriesFragment.getInstance();
                         break;
                 }
@@ -64,50 +64,30 @@ public class MainActivity extends AppCompatActivity implements OnGeneralInterfac
 
         });
 
-        mBottonNavigation.findViewById(R.id.menu_payments).performClick();
+        mBottonNavigation.findViewById(R.id.menu_movies).performClick();
 
         mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
 
-                //Log.d(" TAG verticalOffset ", "" + verticalOffset);
                 if (verticalOffset == 0) {
                     if (mBottonNavigation.getVisibility() != View.VISIBLE) {
-                        TranslateAnimation animate = new TranslateAnimation(0, 0, 0, 0);
-                        animate.setDuration(300);
-                        animate.setFillAfter(true);
-                        mBottonNavigation.startAnimation(animate);
+                        prcAnimate(mBottonNavigation, true);
                         mBottonNavigation.setVisibility(View.VISIBLE);
                     }
                 } else if (Math.abs(verticalOffset) >= appBarLayout.getTotalScrollRange()) {
                     if (mBottonNavigation.getVisibility() != View.GONE) {
-                        TranslateAnimation animate = new TranslateAnimation(0, 0, 0, mBottonNavigation.getHeight());
-                        animate.setDuration(300);
-                        animate.setFillAfter(true);
-                        mBottonNavigation.startAnimation(animate);
+                        prcAnimate(mBottonNavigation, false);
                         mBottonNavigation.setVisibility(View.GONE);
                     }
                 }
-                /*
-                if (verticalOffset == 0) {
+            }
 
-                    Log.d()appBarLayout.getTotalScrollRange()
-                    //mBottonNavigation.clearAnimation();
-                    //mBottonNavigation.setVisibility(View.VISIBLE);
-                    TranslateAnimation animate = new TranslateAnimation(0,0,0,mBottonNavigation.getHeight());
-                    animate.setDuration(300);
-                    animate.setFillAfter(true);
-                    mBottonNavigation.startAnimation(animate);
-                    mBottonNavigation.setVisibility(View.VISIBLE);
-                } else {
-                    //mBottonNavigation.setVisibility(View.GONE);
-                    TranslateAnimation animate = new TranslateAnimation(0,0,0,mBottonNavigation.getHeight());
-                    animate.setDuration(300);
-                    animate.setFillAfter(true);
-                    mBottonNavigation.startAnimation(animate);
-                    mBottonNavigation.setVisibility(View.GONE);
-                }
-                */
+            private void prcAnimate(View poView, boolean pbShow) {
+                TranslateAnimation animate = new TranslateAnimation(0, 0, 0, (pbShow)?0:poView.getHeight());
+                animate.setDuration(300);
+                animate.setFillAfter(true);
+                mBottonNavigation.startAnimation(animate);
             }
         });
 

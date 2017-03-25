@@ -94,6 +94,7 @@ public abstract class GeneralFragment<T> extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+        if(mWebTasks!=null) mWebTasks.cancel();
     }
 
     @Override

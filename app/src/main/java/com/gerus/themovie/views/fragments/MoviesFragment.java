@@ -78,7 +78,6 @@ public class MoviesFragment extends GeneralFragment<Movie> {
                 } else {
                     prcCleanError(mContext.getString(R.string.error_network));
                 }
-
             }
         });
 
@@ -240,7 +239,6 @@ public class MoviesFragment extends GeneralFragment<Movie> {
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
         itemAnimator.setChangeDuration(1500);
         mRecyclerView.setItemAnimator(itemAnimator);
-
     }
 
 }

@@ -48,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/colorAccent"
                 android:orientation="horizontal"
-                android:padding="10dp">
+                android:padding="@dimen/padding_detail_info">
 
                 <com.gerus.themovie.custom.CircleDisplay
                     android:id="@+id/circleDisplay"
@@ -70,11 +70,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="10dp">
+                android:padding="@dimen/padding_detail_info">
 
                 <org.apmem.tools.layouts.FlowLayout
                     android:id="@+id/flowLayout"
-                    android:layout_margin="15dp"
+                    android:layout_margin="@dimen/padding_detail_flowlayout"
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
@@ -91,7 +91,7 @@
                     style="?android:textAppearanceMedium"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:padding="15dp"
+                    android:padding="@dimen/padding_detail_description"
                     android:text="@string/app_name"
                     android:textColor="@color/white"
                     android:textStyle="bold" />

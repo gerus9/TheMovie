@@ -3,6 +3,8 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
+    <!-- Toolbar -->
+    <dimen name="margin_toolbar">0dp</dimen>
 
     <!-- Details -->
     <dimen name="card_news_height">280dp</dimen>
@@ -31,5 +33,9 @@
     <dimen name="chip_raduis">30dip</dimen>
     <dimen name="chip_layer">4dp</dimen>
     <dimen name="chip_shadow">4dp</dimen>
-
+    <dimen name="padding_detail_info">10dp</dimen>
+    <dimen name="padding_detail_flowlayout">15dp</dimen>
+    <dimen name="padding_detail_description">15dp</dimen>
+    <dimen name="item_detail_text2_size">18sp</dimen>
+    <dimen name="padding_progressview">25dp</dimen>
 </resources>

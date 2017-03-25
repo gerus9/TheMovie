@@ -41,7 +41,7 @@
                 android:gravity="center_vertical"
                 android:layout_height="match_parent"
                 android:textColor="@color/white"
-                android:textSize="18sp"
+                android:textSize="@dimen/item_detail_text2_size"
                 android:autoLink="web"
                 android:layout_weight=".5" />
 

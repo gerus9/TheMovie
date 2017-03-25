@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="25dp">
+    android:padding="@dimen/padding_progressview">
 
     <com.gerus.themovie.custom.CustomProgressView
         android:id="@+id/progressView"
@@ -14,9 +14,8 @@
         android:layout_height="@dimen/customprogress"
         android:background="@android:color/transparent"
         android:layout_weight=".2"
-        app:gp_duration="1500"
+        app:gp_duration="@integer/progress_duration"
         app:gp_color="@color/colorPrimary"
-        app:gp_number_of_angles="4" />
-
+        app:gp_number_of_angles="@integer/progress_shapes" />
 
 </LinearLayout>

@@ -2,6 +2,9 @@ package com.gerus.themovie.views.dialogs;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -44,6 +47,7 @@ public class DialogFilter extends Dialog implements Toolbar.OnMenuItemClickListe
 
     @BindView(R.id.flowLayout) FlowLayout mLinerLayout;
     @BindView(R.id.toolbar) Toolbar mToolbar;
+    @BindView(R.id.coordinatorLayout) CoordinatorLayout mCoordinatorLayout;
 
 
     public DialogFilter(Activity poActivity, String psTAG, OnDetailDialogInterface poDialogInterface) {
@@ -87,24 +91,31 @@ public class DialogFilter extends Dialog implements Toolbar.OnMenuItemClickListe
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_confirm:
-                Log.d("Dialog", " ");
                 mDetails.clear();
                 List<Integer> voInteger = new ArrayList<>();
                 for (int i = 0; i < mCheckBoxes.length; i++) {
                     if (mCheckBoxes[i].isChecked()) {
-                        Log.d("Dialog Checked", " " + mCheckBoxes[i].getTag());
                         voInteger.add((Integer) mCheckBoxes[i].getTag());
                     }
                 }
-                mDetails.addAll((mType.equals(MoviesFragment.TAG)?mDB.getMoviesByGenders(voInteger):mDB.getTVByGenders(voInteger)));
-
-                if (mDetails.size() > 0) {
-                    new DialogResult(mActivity, mDetails,mInterface);
+                if(voInteger.isEmpty()){
+                    prcShowErrorMsg(mActivity.getString(R.string.error_empty_category));
                 } else {
-                    Toast.makeText(mActivity, "No se encontraron resultados", Toast.LENGTH_SHORT).show();
+                    mDetails.addAll((mType.equals(MoviesFragment.TAG)?mDB.getMoviesByGenders(voInteger):mDB.getTVByGenders(voInteger)));
+                    if (mDetails.size() > 0) {
+                        new DialogResult(mActivity, mDetails,mInterface);
+                    } else {
+                        prcShowErrorMsg(mActivity.getString(R.string.error_no_search));
+                    }
                 }
                 return true;
         }
         return false;
+    }
+
+    private void prcShowErrorMsg(String psErrorMsg) {
+        Snackbar mSnackbar = Snackbar.make(mCoordinatorLayout, psErrorMsg, Snackbar.LENGTH_LONG);
+        mSnackbar.getView().setBackgroundColor(ContextCompat.getColor(mActivity, R.color.red));
+        mSnackbar.show();
     }
 }

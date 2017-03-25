@@ -82,7 +82,7 @@ public class SeriesFragment extends GeneralFragment<TV> implements OnMiniatureRe
         if (UNetwork.isOnline(mContext)) {
             prcWebGetGeners();
         } else {
-            prcUpdateRecyclerView(mDB.getListTV(), false);
+            if(mListMiniatures.isEmpty()) prcUpdateRecyclerView(mDB.getListTV(), false);
         }
     }
 
@@ -252,7 +252,7 @@ public class SeriesFragment extends GeneralFragment<TV> implements OnMiniatureRe
                 mListMiniatures.clear();
                 mAdapter.resetType();
                 mAdapter.notifyDataSetChanged();
-                mDB.clearTableMovies();
+                if(UNetwork.isOnline(mContext)) mDB.clearTableTV();
             }
             PAGE = PAGE + 1;
             prcUpdateRecyclerView(poTVList, true);

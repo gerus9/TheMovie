@@ -81,7 +81,7 @@ public class MoviesFragment extends GeneralFragment<Movie> implements OnMiniatur
         if (UNetwork.isOnline(mContext)) {
             prcWebGetGeners();
         } else {
-            prcUpdateRecyclerView(mDB.getListMovies(), false);
+            if(mListMiniatures.isEmpty()) prcUpdateRecyclerView(mDB.getListMovies(), false);
         }
     }
 
@@ -252,7 +252,7 @@ public class MoviesFragment extends GeneralFragment<Movie> implements OnMiniatur
                 mListMiniatures.clear();
                 mAdapter.resetType();
                 mAdapter.notifyDataSetChanged();
-                mDB.clearTableMovies();
+                if(UNetwork.isOnline(mContext)) mDB.clearTableMovies();
             }
             PAGE = PAGE + 1;
             prcUpdateRecyclerView(poMovieList, true);

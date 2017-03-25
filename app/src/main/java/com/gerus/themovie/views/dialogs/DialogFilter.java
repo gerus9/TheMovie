@@ -66,7 +66,7 @@ public class DialogFilter extends Dialog implements Toolbar.OnMenuItemClickListe
     }
 
     public void findByIds() {
-
+        mToolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_material);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

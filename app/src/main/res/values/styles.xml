@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -18,12 +18,14 @@
     <style name="Footer_Title" parent="@android:style/TextAppearance.Medium">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/grey_dark</item>
         <item name="android:gravity">center</item>
     </style>
 
     <style name="Footer_Subtitle" parent="@android:style/TextAppearance.Small">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/grey</item>
         <item name="android:gravity">center</item>
     </style>
 
@@ -43,13 +45,15 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:background">@drawable/shape_chip</item>
         <item name="android:button">@android:color/transparent</item>
-        <item name="android:layout_margin">@dimen/chip_margin</item>
+        <item name="android:padding">@dimen/chip_margin</item>
         <item name="android:gravity">center</item>
-        <item name="android:paddingBottom">@dimen/chip_padding_bottom</item>
-        <item name="android:paddingTop">@dimen/chip_padding_top</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">@dimen/chip_text_size</item>
+    </style>
+
+    <style name="Chip.Detail">
+        <item name="android:background">@drawable/shape_chip_detail</item>
     </style>
 
 

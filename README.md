@@ -29,7 +29,7 @@ como de datos y así crear estructuras escalables, donde si es necesario cambiar
 pero no le pega a las vistas.
 
 En el código de la aplicación podemos ver como se pudo reutilizar muchos objetos Movies y TV, ya que ambos heredan de Detail, por lo que fue 
-más facil manipular las vistas, a través de una clases genericas que heredaban de un mismo objeto padre.
+más fácil manipular las vistas, a través de una clases genericas que heredaban de un mismo objeto padre.
 
 ## Código limpio
 

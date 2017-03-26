@@ -1,0 +1,28 @@
+<resources>
+
+    <!-- Error -->
+    <string name="error_network">Verifica tu conexión a Internet</string>
+
+    <!-- Loading info -->
+    <string name="retry_data_tt">No hay información para mostrar</string>
+    <string name="retry_data_description">Desliza la pantalla para abajo, para actualizar la información</string>
+
+    <string name="rate">Calificación de los usuarios</string>
+    <string name="date_release">Fecha de lanzamiento</string>
+
+    <string name="filter">Filtro</string>
+    <string name="search">Buscador por categorías</string>
+
+    <string name="category_popular">Popular</string>
+    <string name="category_rated">Mejor calificada</string>
+    <string name="category_upcoming">Reciente</string>
+
+    <string name="error_limit">Ya no hay más información para mostrar</string>
+    <string name="date_first_air">Fecha salio al aire</string>
+
+    <string name="error_empty_category">Debe seleccionar una categoría</string>
+    <string name="error_no_search">No hay resultados para mostrar</string>
+
+    <string name="tv_series">Series</string>
+    <string name="movies">Peliculas</string>
+</resources>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="progress_duration">1500</integer>
+    <integer name="progress_shapes">4</integer>
+
+    <integer name="numberColumns">2</integer>
+    <integer name="maxLines">2</integer>
+</resources>

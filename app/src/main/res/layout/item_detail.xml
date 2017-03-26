@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/item_detail_liner_padding"
+        android:background="?attr/selectableItemBackground"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/floating"
+            android:src="@drawable/vc_movies"
+            style="@style/Floating" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight=".90"
+            android:orientation="vertical"
+            android:padding="@dimen/item_detail_liner_padding"
+            android:weightSum="1">
+
+            <TextView
+                android:id="@+id/text1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight=".5"
+                android:textColor="@color/white"
+                android:textSize="@dimen/item_detail_title"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/text2"
+                android:layout_width="match_parent"
+                android:gravity="center_vertical"
+                android:layout_height="match_parent"
+                android:textColor="@color/white"
+                android:textSize="@dimen/item_detail_text2_size"
+                android:autoLink="web"
+                android:layout_weight=".5" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

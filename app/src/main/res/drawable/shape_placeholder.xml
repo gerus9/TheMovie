@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="@dimen/placeholder_padding"
+    android:shape="rectangle">
+
+    <solid android:color="@color/placeholder" />
+
+    <corners
+        android:bottomLeftRadius="@dimen/placeholder_radius"
+        android:bottomRightRadius="@dimen/placeholder_radius"
+        android:topLeftRadius="@dimen/placeholder_radius"
+        android:topRightRadius="@dimen/placeholder_radius" />
+
+</shape>

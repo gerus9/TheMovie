@@ -1,3 +1,28 @@
 <resources>
-    <string name="app_name">The Movie</string>
+    <!-- Error -->
+    <string name="error_network">Verify your internet connection</string>
+
+    <!-- Loading info -->
+    <string name="retry_data_tt">No information to display</string>
+    <string name="retry_data_description">Swipe down to update information</string>
+
+    <string name="rate">User Score</string>
+    <string name="date_release">Date Release</string>
+
+    <string name="filter">Filter</string>
+    <string name="search">Search by categories</string>
+
+    <string name="category_popular">Popular</string>
+    <string name="category_rated">Top Rated</string>
+    <string name="category_upcoming">Upcoming</string>
+
+    <string name="error_limit">There is no more information to display</string>
+    <string name="date_first_air">Date first air</string>
+
+    <string name="error_empty_category">You must select a category</string>
+    <string name="error_no_search">No results to show</string>
+
+    <string name="tv_series">Series</string>
+    <string name="movies">Movies</string>
+
 </resources>
